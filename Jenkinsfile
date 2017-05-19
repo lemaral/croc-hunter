@@ -49,9 +49,12 @@ podTemplate(
         stage('push') {
           container('docker') {
             docker.withRegistry("https://${reg_name}", reg_cred) {
-              def img = docker.build("${reg_name}/${reg_repo}:${imageTag}")
-              echo "Id=${img.Id}"
-              img.push(imageTag)
+              def img_name = "${reg_name}/${reg_repo}:${imageTag}"
+              //def img = docker.build(img_name)
+              //echo "Id=${img.Id}"
+              sh "docker build -t ${img_name}  ."
+              def img = docker.image(img_name)
+              img.push()
             }
           }
         }
