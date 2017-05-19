@@ -24,7 +24,7 @@ podTemplate(
         def memory = "512Mi"
         def namespace = app_name
         def helm_args = "--install ${app_name} ${chart_dir} --set imageTag=${imageTag},replicas=${replicas},cpu=${cpu},memory=${memory} --namespace=${namespace}"
-        def registry = "https://930379479477.dkr.ecr.eu-west-1.amazonaws.com"
+        def reg_name = "930379479477.dkr.ecr.eu-west-1.amazonaws.com"
         def reg_cred = "ecr:eu-west-1:demo-ecr-push"
         def reg_repo = "demo-ecr"
 
@@ -48,8 +48,8 @@ podTemplate(
 
         stage('push') {
           container('docker') {
-            docker.withRegistry(registry, reg_cred) {
-              docker.build(reg_repo).push(imageTag)
+              docker.withRegistry("https://${reg_name}", reg_cred) {
+                docker.build("${reg_name}/${reg_repo}").push(imageTag)
             }
           }
         }
