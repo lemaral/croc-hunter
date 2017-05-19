@@ -1,5 +1,5 @@
 #!/usr/bin/groovy
-
+slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 podTemplate(
     label: 'jenkins-pipeline',
     containers: [
@@ -17,17 +17,19 @@ podTemplate(
       node('jenkins-pipeline') {
         def pwd = pwd()
         def chart_dir = "${pwd}/charts/croc-hunter"
-        def app_name = "croc-hunter"
-        def imageTag = "latest"
-        def replicas = "2"
-        def cpu = "1"
-        def memory = "512Mi"
+        def app_name = 'croc-hunter'
+        def imageTag = 'latest'
+        def replicas = '2'
+        def cpu = '1'
+        def memory = '512Mi'
         def namespace = app_name
         def helm_args = "--install ${app_name} ${chart_dir} --set imageTag=${imageTag},replicas=${replicas},cpu=${cpu},memory=${memory} --namespace=${namespace}"
-        def reg_name = "930379479477.dkr.ecr.eu-west-1.amazonaws.com"
-        def reg_cred = "ecr:eu-west-1:demo-ecr-push"
-        def reg_repo = "demo-ecr"
+        def reg_name = '930379479477.dkr.ecr.eu-west-1.amazonaws.com'
+        def reg_cred = 'ecr:eu-west-1:demo-ecr-push'
+        def reg_repo = 'demo-ecr'
 
+        //def git_repo = 'https://github.com/lemaral/croc-hunter'
+        //git git_url
         checkout scm
 
         stage('build') {
