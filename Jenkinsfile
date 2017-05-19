@@ -48,8 +48,10 @@ podTemplate(
 
         stage('push') {
           container('docker') {
-              docker.withRegistry("https://${reg_name}", reg_cred) {
-                docker.build("${reg_name}/${reg_repo}").push(imageTag)
+            docker.withRegistry("https://${reg_name}", reg_cred) {
+              def img = docker.build("${reg_name}/${reg_repo}:${imageTag}")
+              echo "Id=${img.Id}"
+              img.push(imageTag)
             }
           }
         }
