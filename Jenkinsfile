@@ -52,8 +52,8 @@ podTemplate(
           container('docker') {
             docker.withRegistry("https://${reg_name}", reg_cred) {
               def img_name = "${reg_name}/${reg_repo}:${imageTag}"
+              //See https://issues.jenkins-ci.org/browse/JENKINS-31507
               //def img = docker.build(img_name)
-              //echo "Id=${img.Id}"
               sh "docker build -t ${img_name}  ."
               def img = docker.image(img_name)
               img.push()
