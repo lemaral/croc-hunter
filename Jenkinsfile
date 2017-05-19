@@ -1,5 +1,5 @@
 #!/usr/bin/groovy
-slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+//slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 podTemplate(
     label: 'jenkins-pipeline',
     containers: [
@@ -19,9 +19,9 @@ podTemplate(
         def chart_dir = "${pwd}/charts/croc-hunter"
         def app_name = 'croc-hunter'
         def imageTag = 'latest'
-        def replicas = '2'
-        def cpu = '1'
-        def memory = '512Mi'
+        def replicas = '3'
+        def cpu = '10m'
+        def memory = '128Mi'
         def namespace = app_name
         def helm_args = "--install ${app_name} ${chart_dir} --set imageTag=${imageTag},replicas=${replicas},cpu=${cpu},memory=${memory} --namespace=${namespace}"
         def reg_name = '930379479477.dkr.ecr.eu-west-1.amazonaws.com'
