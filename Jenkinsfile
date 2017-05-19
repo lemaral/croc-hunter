@@ -62,7 +62,7 @@ podTemplate(
         stage('deploy') {
           container('helm') {
             sh "helm upgrade ${helm_args}"
-            sh "helm test ${app_name} --cleanup"
+            //sh "helm test ${app_name} --cleanup"
           }
         }
       }
